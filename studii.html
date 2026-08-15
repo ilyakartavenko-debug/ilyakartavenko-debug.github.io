@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Сообщество студии, которое ведёт себя само</title>
+<meta name="description" content="Система для фитнес- и бьюти-студий: сама пишет посты, публикует их ВКонтакте, ведёт рекламу и показывает, сколько записей она принесла.">
+<style>
+  :root{
+    --paper:#faf8f7; --surface:#fff; --surface-2:#f2eef1;
+    --line:#e2d9de; --line-soft:#efe8ec;
+    --ink:#211a24; --ink-2:#584c5c; --ink-3:#8a7d8d;
+    --plum:#6b3f6e; --plum-ink:#4f2d52; --plum-wash:#f3ebf4;
+    --on-plum:#fff;   /* текст на заливке кнопки — свой в каждой теме */
+    --sage:#3f6f60; --sage-wash:#e6efeb;
+    --clay:#a04e3a;
+    --f-display:"Century Gothic","Futura","Avenir Next","Trebuchet MS",sans-serif;
+    --f-body:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --f-data:ui-monospace,"Cascadia Mono",Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#17121a; --surface:#1f1823; --surface-2:#271f2c;
+      --line:#3a2f40; --line-soft:#2b2331;
+      --ink:#f0e9f1; --ink-2:#bcaec0; --ink-3:#8a7d8d;
+      --plum:#c79ccc; --plum-ink:#dcbde0; --plum-wash:#2b1f2e;
+      --on-plum:#17121a;
+      --sage:#7cc2ae; --sage-wash:#1a2b26;
+      --clay:#d98a70;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#17121a; --surface:#1f1823; --surface-2:#271f2c;
+    --line:#3a2f40; --line-soft:#2b2331;
+    --ink:#f0e9f1; --ink-2:#bcaec0; --ink-3:#8a7d8d;
+    --plum:#c79ccc; --plum-ink:#dcbde0; --plum-wash:#2b1f2e;
+    --sage:#7cc2ae; --sage-wash:#1a2b26;
+    --clay:#d98a70;
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;padding:0 1.25rem 5rem;background:var(--paper);color:var(--ink);
+       font-family:var(--f-body);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:58rem;margin:0 auto}
+  h1,h2,h3,.eyebrow,.tarif-name,.amt,.stat-n,.btn{font-family:var(--f-display)}
+  h1{font-size:clamp(2.1rem,5.6vw,3.5rem);line-height:1.06;letter-spacing:-.02em;margin:0;text-wrap:balance}
+  h2{font-size:clamp(1.5rem,3.4vw,2.1rem);line-height:1.12;margin:0;letter-spacing:-.01em;text-wrap:balance}
+  h3{font-size:1.1rem;margin:0;letter-spacing:-.005em}
+  p{margin:0;max-width:62ch}
+  ul{margin:0;padding-left:1.15rem;max-width:62ch}
+  li{margin-bottom:.4rem}
+  li::marker{color:var(--plum)}
+  a{color:var(--plum-ink)}
+  strong{font-weight:600}
+  .eyebrow{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--plum);margin:0}
+  .lede{font-size:1.18rem;color:var(--ink-2);max-width:48ch}
+  .mono{font-family:var(--f-data);font-variant-numeric:tabular-nums}
+  .small{font-size:.92rem;color:var(--ink-2)}
+  .note{font-size:.86rem;color:var(--ink-3);max-width:60ch}
+
+  header{padding:4rem 0 2.5rem;display:flex;flex-direction:column;gap:1.4rem}
+  section{padding:3.25rem 0 0;display:flex;flex-direction:column;gap:1.2rem;
+          border-top:1px solid var(--line);margin-top:3.25rem}
+  header + section{margin-top:0}
+
+  .btn{display:inline-block;text-decoration:none;font-size:.95rem;letter-spacing:.01em;
+       padding:.75rem 1.4rem;border-radius:999px;border:1px solid var(--plum);
+       background:var(--plum);color:var(--on-plum)}
+  .btn.ghost{background:transparent;color:var(--plum-ink)}
+  .btn:focus-visible{outline:2px solid var(--clay);outline-offset:3px}
+  .cta-row{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));
+         border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden}
+  .stat{padding:1.1rem 1.15rem;border-right:1px solid var(--line-soft);
+        display:flex;flex-direction:column;gap:.2rem}
+  .stat:last-child{border-right:0}
+  .stat-n{font-size:1.85rem;line-height:1;color:var(--plum-ink)}
+  .stat-l{font-size:.78rem;color:var(--ink-3);line-height:1.35}
+
+  .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+  .card{border:1px solid var(--line);border-radius:14px;background:var(--surface);
+        padding:1.2rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}
+  .card p,.card ul{max-width:none}
+  .ic{font-size:1.4rem;line-height:1}
+
+  .compare{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))}
+  .col{border:1px solid var(--line);border-radius:14px;padding:1.2rem 1.25rem;background:var(--surface)}
+  .col.was{border-color:var(--line)}
+  .col.now{border-color:var(--sage);background:var(--sage-wash)}
+  .col h3{margin-bottom:.6rem}
+  .col.now h3{color:var(--sage)}
+  .col ul{padding-left:1.1rem}
+
+  .tarifs{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+  .tarif{border:1px solid var(--line);border-radius:16px;background:var(--surface);
+         padding:1.4rem 1.3rem;display:flex;flex-direction:column;gap:.6rem}
+  .tarif.feat{border-color:var(--plum);box-shadow:0 0 0 1px var(--plum) inset}
+  .tarif-name{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+  .amt{font-size:2rem;line-height:1;font-variant-numeric:tabular-nums}
+  .amt span{font-size:.95rem;color:var(--ink-3)}
+  .tarif ul{font-size:.93rem;margin-top:.3rem}
+  .badge{position:relative;top:-.15rem;display:inline-block;font-size:.68rem;letter-spacing:.1em;
+         text-transform:uppercase;padding:.15rem .5rem;border-radius:999px;
+         background:var(--plum-wash);color:var(--plum-ink);border:1px solid var(--plum)}
+
+  details{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:.9rem 1.15rem}
+  summary{cursor:pointer;font-weight:600;color:var(--ink)}
+  details[open] summary{margin-bottom:.6rem;padding-bottom:.55rem;border-bottom:1px solid var(--line-soft)}
+  summary:focus-visible{outline:2px solid var(--plum);outline-offset:3px}
+  details p{font-size:.95rem;color:var(--ink-2)}
+
+  .final{border:1px solid var(--plum);border-radius:18px;background:var(--plum-wash);
+         padding:2rem 1.5rem;text-align:center;display:flex;flex-direction:column;
+         gap:1rem;align-items:center}
+  .final p{max-width:46ch}
+  .final .cta-row{justify-content:center}
+
+  footer{margin-top:3.5rem;border-top:1px solid var(--line);padding-top:1.25rem;
+         font-size:.85rem;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:.6rem 1.5rem}
+
+  @media(max-width:640px){
+    body{font-size:16px}
+    .stat{border-right:0;border-bottom:1px solid var(--line-soft)}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Для фитнес-, бьюти- и танцевальных студий</p>
+  <h1>Сообщество студии,<br>которое ведёт себя само</h1>
+  <p class="lede">Система пишет посты по вашим направлениям и ценам, публикует их ВКонтакте, ведёт рекламу и показывает, сколько записей она принесла. Не «помощник для SMM-щика» — замена всего процесса.</p>
+  <div class="cta-row">
+    <a class="btn" href="#demo">Показать за 15 минут</a>
+    <a class="btn ghost" href="#tarify">Смотреть цены</a>
+  </div>
+  <p class="note">Работает в реальной студии растяжки. Не демо и не концепт — живой бизнес с выручкой и зарплатами.</p>
+</header>
+
+<section>
+  <h2>Знакомая история</h2>
+  <p>У студии есть сообщество на тысячу-другую подписчиков. Когда-то его вели, потом стало некогда: администратор занят записью, владелец — всем сразу. Последний пост — месяц назад.</p>
+  <p>Эта тысяча человек однажды подписалась, потому что им было интересно. Сейчас они про вас не помнят. Аренда идёт, окна в расписании пустые, а витрина стоит закрытой.</p>
+
+  <div class="compare">
+    <div class="col was">
+      <h3>Как обычно</h3>
+      <ul class="small">
+        <li>Посты пишутся, когда дошли руки</li>
+        <li>Реклама либо не запускается, либо крутится вслепую</li>
+        <li>Непонятно, какой пост привёл клиента</li>
+        <li>SMM-щик стоит 30–40 тысяч и не отвечает за запись</li>
+      </ul>
+    </div>
+    <div class="col now">
+      <h3>С системой</h3>
+      <ul class="small">
+        <li>5 постов в неделю по расписанию, без вашего участия</li>
+        <li>Реклама сама усиливает темы, которые дают клики дешевле</li>
+        <li>Видно выручку по каждому посту — через промокоды</li>
+        <li>Убыточное объявление ставится на паузу автоматически</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Что именно делает система</h2>
+  <div class="grid">
+    <div class="card"><div class="ic">✍️</div><h3>Пишет посты</h3>
+      <p class="small">По вашим направлениям, тренерам и ценам. Что не записано в справке студии — не напишет: никаких выдуманных акций, фальшивых отзывов и «села на шпагат за неделю».</p></div>
+    <div class="card"><div class="ic">🖼</div><h3>Подбирает картинку</h3>
+      <p class="small">Генерирует изображение под конкретный пост, в узнаваемой обстановке вашего зала.</p></div>
+    <div class="card"><div class="ic">📅</div><h3>Публикует сама</h3>
+      <p class="small">Пять раз в неделю в заданное время. Можно включить режим, где вы утверждаете каждый пост перед выходом.</p></div>
+    <div class="card"><div class="ic">🎯</div><h3>Ведёт рекламу</h3>
+      <p class="small">Запускает продвижение записей в рекламном кабинете ВК, собирает статистику и учится: темы с высоким откликом усиливает, слабые обходит.</p></div>
+    <div class="card"><div class="ic">💜</div><h3>Считает выручку</h3>
+      <p class="small">В рекламные посты вшивается уникальное слово-промокод. Клиент называет его при записи — и видно, какой именно пост принёс деньги.</p></div>
+    <div class="card"><div class="ic">📊</div><h3>Показывает в панели</h3>
+      <p class="small">Выручка, расход, окупаемость рекламы, топ тем. Отдельная страница для менеджера, чтобы вносить продажи.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Почему это не «нейросеть пишет ерунду»</h2>
+  <p>Главный страх владельца — что машина начнёт сочинять про студию небылицы. Поэтому система построена от запретов, а не от свободы.</p>
+  <div class="grid">
+    <div class="card"><h3>Только ваши факты</h3>
+      <p class="small">Направления, тренеры, адрес, постоянные скидки загружаются один раз. За пределы этой справки система не выходит.</p></div>
+    <div class="card"><h3>Запрет на выдумки</h3>
+      <p class="small">Нельзя сочинять истории учениц, цитаты, точные результаты и статистику. Нельзя придумывать цены и акции.</p></div>
+    <div class="card"><h3>Бережная подача</h3>
+      <p class="small">Запрещено давить на стыд из-за фигуры и обещать лечебный эффект. Про спину — обязательная оговорка про мягкость и тренера.</p></div>
+    <div class="card"><h3>Вы утверждаете</h3>
+      <p class="small">Первую неделю рекомендую режим согласования: каждый пост приходит вам до публикации. Дальше отключите сами.</p></div>
+  </div>
+</section>
+
+<section id="tarify">
+  <h2>Цены</h2>
+  <p>Без договора на год. Не подошло — отключаемся, сообщество остаётся у вас со всем контентом.</p>
+  <div class="tarifs">
+    <div class="tarif">
+      <span class="tarif-name">Контент</span>
+      <div class="amt">9 000 <span>₽/мес</span></div>
+      <ul>
+        <li>5 постов в неделю с картинками</li>
+        <li>Публикация по расписанию</li>
+        <li>Режим согласования постов</li>
+        <li>Панель со статистикой</li>
+      </ul>
+    </div>
+    <div class="tarif feat">
+      <span class="tarif-name">Контент и реклама <span class="badge">чаще всего берут</span></span>
+      <div class="amt">19 000 <span>₽/мес</span></div>
+      <ul>
+        <li>Всё из тарифа «Контент»</li>
+        <li>Ведение рекламного кабинета ВК</li>
+        <li>Обучение на откликах: сильные темы усиливаются</li>
+        <li>Автопауза убыточных объявлений</li>
+        <li>Промокоды и подсчёт выручки по постам</li>
+      </ul>
+    </div>
+    <div class="tarif">
+      <span class="tarif-name">Полный контур</span>
+      <div class="amt">29 000 <span>₽/мес</span></div>
+      <ul>
+        <li>Всё из тарифа «Контент и реклама»</li>
+        <li>Интеграция с YClients</li>
+        <li>Окупаемость по реальным оплаченным визитам</li>
+        <li>Возврат клиентов, которые давно не приходили</li>
+      </ul>
+    </div>
+  </div>
+  <p class="small">Подключение — <strong>30 000 ₽ разово</strong>: настройка под вашу студию, подключение сообщества и рекламного кабинета, обучение менеджера. Дальше только ежемесячная плата.</p>
+
+  <div class="stats">
+    <div class="stat"><span class="stat-n">30–40к</span><span class="stat-l">стоит SMM-щик, который делает меньше</span></div>
+    <div class="stat"><span class="stat-n">5</span><span class="stat-l">постов в неделю без вашего участия</span></div>
+    <div class="stat"><span class="stat-n">1,5 ч</span><span class="stat-l">занимает подключение студии</span></div>
+    <div class="stat"><span class="stat-n">0</span><span class="stat-l">часов вашего времени в неделю</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Вопросы, которые задают чаще всего</h2>
+
+  <details>
+    <summary>У нас уже есть SMM-щик. Его увольнять?</summary>
+    <p>Не обязательно и часто не нужно. Система снимает с него рутину — генерацию и публикацию, — а у него освобождается время на съёмки, сторис и живое общение, которое машина не сделает. Плюс появляется отчёт, сколько денег принёс каждый пост, а это обычно первое, чего у студии нет.</p>
+  </details>
+
+  <details>
+    <summary>А если посты будут одинаковые и скучные?</summary>
+    <p>Система намеренно меняет форму от поста к посту: то короткая мысль, то разбор ошибки, то конкретное упражнение с объяснением, как его делать. Есть список запрещённых штампов — «идеальная версия себя», «путь к себе», «не упустите шанс» и десятки других. Каждый пост обязан дать читательнице что-то применимое, иначе считается браком.</p>
+  </details>
+
+  <details>
+    <summary>Мы не в ВКонтакте, у нас всё в других соцсетях.</summary>
+    <p>Сейчас система публикует во ВКонтакте и работает с рекламным кабинетом ВК — там, где для российских студий реально крутится платный трафик. Если ваша аудитория живёт в другом месте, скажите об этом на созвоне, посмотрим, есть ли смысл.</p>
+  </details>
+
+  <details>
+    <summary>Сколько времени нужно от нас?</summary>
+    <p>На подключении — один созвон на час: рассказать про направления, тренеров, цены и дать доступ к сообществу. Дальше ноль, если не включён режим согласования. С ним — пара минут в день на «да/нет».</p>
+  </details>
+
+  <details>
+    <summary>Что если не понравится?</summary>
+    <p>Первую неделю можно взять тестом — я подключу вашу студию бесплатно, посты будете утверждать сами. Посмотрите на живых текстах, а не на обещаниях. Не понравилось — расходимся, вы ничего не должны.</p>
+  </details>
+</section>
+
+<section id="demo">
+  <div class="final">
+    <p class="eyebrow">Следующий шаг</p>
+    <h2>Покажу на вашем сообществе</h2>
+    <p>Пятнадцать минут: посмотрим ваши цифры, открою панель работающей студии, покажу, как выглядят посты. Без презентаций и без обязательств.</p>
+    <div class="cta-row">
+      <a class="btn" href="https://t.me/kartavenkoilya">Написать в Telegram</a>
+      <a class="btn ghost" href="tel:+79203330097">+7 920 333-00-97</a>
+      <a class="btn ghost" href="mailto:ilya.kartavenko@gmail.com">Написать на почту</a>
+    </div>
+    <p class="note">Илья Картавенко · ИП, работаю по договору с закрывающими документами</p>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Илья Картавенко</span>
+  <span><a href="./">Другие проекты и кейсы</a></span>
+</footer>
+
+</div>
+</body>
+</html>

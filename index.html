@@ -1,0 +1,411 @@
+<title>Илья Картавенко — внедрение ИИ и автоматизация для бизнеса</title>
+<style>
+  :root{
+    --bg:#f6f4ef; --panel:#ffffff; --panel-2:#fbfaf6; --line:#e6e0d3; --line-2:#efeadf;
+    --ink:#17181d; --ink-2:#4c4d55; --ink-3:#7c7d86;
+    --accent:#c8791a; --accent-ink:#7a4708; --accent-soft:#f6e6cf;
+    --data:#0f8f86; --good:#2f9e57;
+    --shadow:0 1px 2px rgba(20,18,12,.05), 0 8px 24px -12px rgba(20,18,12,.12);
+    --mono:ui-monospace,"SF Mono","Cascadia Mono","JetBrains Mono","Roboto Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0c0e13; --panel:#14171f; --panel-2:#11141b; --line:#242a36; --line-2:#1c212b;
+      --ink:#eceef4; --ink-2:#a7adbb; --ink-3:#6b7280;
+      --accent:#f5b43f; --accent-ink:#ffca63; --accent-soft:#332715;
+      --data:#37cabc; --good:#4bc47a;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 18px 40px -20px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#f6f4ef; --panel:#ffffff; --panel-2:#fbfaf6; --line:#e6e0d3; --line-2:#efeadf;
+    --ink:#17181d; --ink-2:#4c4d55; --ink-3:#7c7d86;
+    --accent:#c8791a; --accent-ink:#7a4708; --accent-soft:#f6e6cf;
+    --data:#0f8f86; --good:#2f9e57;
+    --shadow:0 1px 2px rgba(20,18,12,.05), 0 8px 24px -12px rgba(20,18,12,.12);
+  }
+  :root[data-theme="dark"]{
+    --bg:#0c0e13; --panel:#14171f; --panel-2:#11141b; --line:#242a36; --line-2:#1c212b;
+    --ink:#eceef4; --ink-2:#a7adbb; --ink-3:#6b7280;
+    --accent:#f5b43f; --accent-ink:#ffca63; --accent-soft:#332715;
+    --data:#37cabc; --good:#4bc47a;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 18px 40px -20px rgba(0,0,0,.7);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+    line-height:1.6; -webkit-font-smoothing:antialiased;
+    background-image:
+      linear-gradient(var(--line-2) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line-2) 1px,transparent 1px);
+    background-size:64px 64px; background-position:-1px -1px;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px}
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--accent); margin:0 0 14px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--accent); display:inline-block}
+  h1,h2,h3{text-wrap:balance; line-height:1.1; margin:0}
+  a{color:inherit}
+
+  /* top bar */
+  .top{position:sticky; top:0; z-index:20; backdrop-filter:blur(10px);
+    background:color-mix(in srgb,var(--bg) 82%,transparent); border-bottom:1px solid var(--line-2)}
+  .top .wrap{display:flex; align-items:center; justify-content:space-between; height:62px}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:-.01em}
+  .brand .dot{width:11px; height:11px; border-radius:3px; background:var(--accent);
+    box-shadow:0 0 0 4px var(--accent-soft)}
+  .brand small{font-family:var(--mono); font-weight:500; font-size:11px; color:var(--ink-3);
+    letter-spacing:.12em; text-transform:uppercase}
+  .btn{display:inline-flex; align-items:center; gap:8px; font-weight:600; font-size:15px;
+    padding:11px 18px; border-radius:10px; text-decoration:none; border:1px solid transparent; cursor:pointer}
+  .btn-primary{background:var(--accent); color:#1a1205; border-color:var(--accent)}
+  .btn-primary:hover{filter:brightness(1.06)}
+  .btn-ghost{background:transparent; color:var(--ink); border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--accent); color:var(--accent)}
+  .top .btn{padding:8px 14px; font-size:14px}
+
+  /* hero */
+  .hero{padding:76px 0 40px}
+  .hero h1{font-size:clamp(34px,5.4vw,58px); font-weight:800; letter-spacing:-.025em}
+  .hero h1 .hl{color:var(--accent)}
+  .lead{font-size:clamp(17px,2.1vw,20px); color:var(--ink-2); max-width:60ch; margin:22px 0 30px}
+  .cta-row{display:flex; gap:12px; flex-wrap:wrap}
+
+  /* instrument strip */
+  .panelstrip{margin-top:44px; background:var(--panel); border:1px solid var(--line);
+    border-radius:16px; box-shadow:var(--shadow); overflow:hidden}
+  .panelstrip .bar{display:flex; align-items:center; gap:8px; padding:10px 16px;
+    border-bottom:1px solid var(--line-2); font-family:var(--mono); font-size:11px;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
+  .panelstrip .bar b{color:var(--good); font-weight:600}
+  .led{width:8px; height:8px; border-radius:50%; background:var(--good);
+    box-shadow:0 0 0 3px color-mix(in srgb,var(--good) 22%,transparent)}
+  .metrics{display:grid; grid-template-columns:repeat(4,1fr)}
+  .metrics .m{padding:20px 18px; border-right:1px solid var(--line-2)}
+  .metrics .m:last-child{border-right:0}
+  .metrics .k{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
+  .metrics .v{font-size:22px; font-weight:750; letter-spacing:-.02em; margin-top:8px; font-variant-numeric:tabular-nums}
+  .metrics .v small{display:block; font-size:12px; font-weight:500; color:var(--ink-2); letter-spacing:0; margin-top:3px}
+
+  section{padding:56px 0}
+  .sec-head{max-width:60ch; margin-bottom:34px}
+  .sec-head h2{font-size:clamp(25px,3.4vw,34px); font-weight:780; letter-spacing:-.02em}
+  .sec-head p{color:var(--ink-2); margin:14px 0 0; font-size:16.5px}
+
+  /* services */
+  .grid{display:grid; gap:16px}
+  .services{grid-template-columns:repeat(3,1fr)}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:22px;
+    box-shadow:var(--shadow)}
+  .card .ic{width:38px; height:38px; border-radius:9px; display:grid; place-items:center;
+    background:var(--accent-soft); color:var(--accent-ink); font-size:19px; margin-bottom:14px}
+  .card h3{font-size:18px; font-weight:700; letter-spacing:-.01em}
+  .card p{color:var(--ink-2); font-size:15px; margin:9px 0 0}
+  .card .price{font-family:var(--mono); font-size:13px; color:var(--accent); margin-top:14px; font-weight:600}
+
+  /* case files */
+  .cases{display:grid; gap:18px}
+  .case{background:var(--panel); border:1px solid var(--line); border-radius:16px; overflow:hidden;
+    box-shadow:var(--shadow); display:grid; grid-template-columns:200px 1fr}
+  .case .side{background:var(--panel-2); border-right:1px solid var(--line-2); padding:22px}
+  .case .tag{font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--accent); font-weight:600}
+  .case .no{font-family:var(--mono); font-size:13px; color:var(--ink-3); margin-top:6px}
+  .case .status{margin-top:18px; display:inline-flex; align-items:center; gap:7px; font-size:13px;
+    font-weight:600; color:var(--good)}
+  .case .body{padding:24px}
+  .case h3{font-size:20px; font-weight:750; letter-spacing:-.015em}
+  .case p{color:var(--ink-2); font-size:15.5px; margin:11px 0 16px}
+  .chips{display:flex; flex-wrap:wrap; gap:8px}
+  .chip{font-family:var(--mono); font-size:12px; padding:5px 10px; border-radius:7px;
+    background:var(--panel-2); border:1px solid var(--line-2); color:var(--ink-2)}
+  .chip.d{color:var(--data); border-color:color-mix(in srgb,var(--data) 34%,var(--line-2))}
+
+  /* stack */
+  .stack{display:flex; flex-wrap:wrap; gap:10px}
+  .stack .chip{font-size:13px; padding:8px 13px}
+
+  /* pricing */
+  .price-grid{grid-template-columns:repeat(3,1fr)}
+  .pcard{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:22px; box-shadow:var(--shadow)}
+  .pcard.feat{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent),var(--shadow)}
+  .pcard .name{font-weight:700; font-size:16px}
+  .pcard .amt{font-size:26px; font-weight:800; letter-spacing:-.02em; margin:10px 0 2px; font-variant-numeric:tabular-nums}
+  .pcard .amt span{font-size:14px; font-weight:600; color:var(--ink-3)}
+  .pcard .term{font-family:var(--mono); font-size:12px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.08em}
+  .pcard ul{list-style:none; padding:0; margin:16px 0 0}
+  .pcard li{font-size:14.5px; color:var(--ink-2); padding:7px 0 7px 24px; position:relative; border-top:1px solid var(--line-2)}
+  .pcard li::before{content:"→"; position:absolute; left:0; color:var(--accent); font-weight:700}
+
+  /* process */
+  .steps{counter-reset:s; display:grid; grid-template-columns:repeat(4,1fr); gap:16px}
+  .step{position:relative; padding-top:20px}
+  .step::before{counter-increment:s; content:"0" counter(s); font-family:var(--mono); font-weight:700;
+    font-size:13px; color:var(--accent); letter-spacing:.1em}
+  .step h3{font-size:16.5px; font-weight:700; margin-top:10px}
+  .step p{color:var(--ink-2); font-size:14.5px; margin:8px 0 0}
+  .step .rule{height:2px; background:var(--line); margin-top:14px; position:relative}
+  .step .rule::after{content:""; position:absolute; left:0; top:0; height:100%; width:26px; background:var(--accent)}
+
+  /* contact */
+  .contact{background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:44px;
+    box-shadow:var(--shadow); text-align:center}
+  .contact h2{font-size:clamp(24px,3.4vw,34px); font-weight:800; letter-spacing:-.02em}
+  .contact p{color:var(--ink-2); max-width:52ch; margin:14px auto 26px; font-size:16.5px}
+  .contact .cta-row{justify-content:center}
+  .note{font-family:var(--mono); font-size:12px; color:var(--ink-3); margin-top:18px}
+
+  footer{padding:36px 0 60px; color:var(--ink-3); font-size:14px;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; border-top:1px solid var(--line-2)}
+  footer .mono{font-family:var(--mono); font-size:12px}
+
+  @media (max-width:820px){
+    .services{grid-template-columns:1fr 1fr}
+    .metrics{grid-template-columns:1fr 1fr}
+    .metrics .m:nth-child(2){border-right:0}
+    .metrics .m:nth-child(-n+2){border-bottom:1px solid var(--line-2)}
+    .price-grid{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr 1fr}
+    .case{grid-template-columns:1fr}
+    .case .side{border-right:0; border-bottom:1px solid var(--line-2); display:flex; align-items:center;
+      justify-content:space-between}
+    .case .status{margin-top:0}
+  }
+  @media (max-width:520px){
+    .services{grid-template-columns:1fr}
+    .metrics{grid-template-columns:1fr 1fr}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .card,.pcard,.btn{transition:transform .16s ease, border-color .16s ease, filter .16s ease}
+    .card:hover,.pcard:hover{transform:translateY(-2px)}
+  }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span> Илья Картавенко <small>AI / Automation</small></div>
+    <a class="btn btn-primary" href="#contact">Обсудить задачу</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Внедрение ИИ · Боты · Автоматизация</p>
+      <h1>Превращаю рутину бизнеса<br>в системы, которые <span class="hl">работают сами</span></h1>
+      <p class="lead">Строю чат-ботов, AI-ассистентов, парсеры и панели с аналитикой — то, что принимает заявки, ведёт клиента и экономит часы ручной работы. Быстро, потому что собираю с Claude Code.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#contact">Обсудить задачу</a>
+        <a class="btn btn-ghost" href="#cases">Смотреть кейсы</a>
+        <a class="btn btn-ghost" href="studii.html">Готовое решение для студий</a>
+      </div>
+
+      <div class="panelstrip" aria-label="Статус систем">
+        <div class="bar"><span class="led"></span> systems · <b>online</b> — что уже работает в проде</div>
+        <div class="metrics">
+          <div class="m"><div class="k">Продукт</div><div class="v">Панель для студий<small>SaaS на YClients — в проде</small></div></div>
+          <div class="m"><div class="k">Каналы</div><div class="v">TG · VK · MAX<small>боты записи и заявок</small></div></div>
+          <div class="m"><div class="k">Контент</div><div class="v">24/7<small>автопостинг на нейросети</small></div></div>
+          <div class="m"><div class="k">Стек</div><div class="v">Python<small>+ Claude Code, Docker</small></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Что делаю</p>
+        <h2>Пять направлений — под задачу бизнеса, а не «просто код»</h2>
+        <p>Беру задачу от идеи до работающей системы: обсудили результат, зафиксировали срок и цену — дальше собираю и внедряю.</p>
+      </div>
+      <div class="grid services">
+        <div class="card"><div class="ic">🤖</div><h3>Чат-боты</h3><p>Telegram / WhatsApp / VK: запись, поддержка, приём заявок, продажи. С интеграцией в вашу CRM.</p><div class="price">от 40 000 ₽ · 3–7 дней</div></div>
+        <div class="card"><div class="ic">🧠</div><h3>AI-ассистенты</h3><p>Агенты на нейросетях под ваши данные и скрипты: отвечают, разбирают документы, помогают отделу.</p><div class="price">от 80 000 ₽ · 1–3 недели</div></div>
+        <div class="card"><div class="ic">⚙️</div><h3>Автоматизация и парсинг</h3><p>Сбор данных, отчёты, интеграции, обработка рутины. Один раз настроили — работает без вас.</p><div class="price">от 20 000 ₽ · 3–10 дней</div></div>
+        <div class="card"><div class="ic">📊</div><h3>Панели и дашборды</h3><p>Внутренние панели с аналитикой и графиками: видно, что происходит в бизнесе, в реальном времени.</p><div class="price">от 50 000 ₽ · 5–14 дней</div></div>
+        <div class="card"><div class="ic">🌐</div><h3>Сайты и лендинги</h3><p>Быстрые сайты и лендинги под задачу: аккуратная вёрстка, адаптив, скорость.</p><div class="price">от 50 000 ₽ · 5–14 дней</div></div>
+        <div class="card"><div class="ic">🔁</div><h3>Ведение на аутсорсе</h3><p>Ретейнер: развиваю и поддерживаю вашу систему ежемесячно — доработки, новые функции, дежурство.</p><div class="price">от 30 000 ₽ / мес</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cases">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Кейсы</p>
+        <h2>Живые системы, а не скриншоты из туториала</h2>
+        <p>Ниже — то, что реально построено и работает. Один из продуктов продаётся другим студиям как готовое решение.</p>
+      </div>
+      <div class="cases">
+
+        <article class="case">
+          <div class="side">
+            <div><div class="tag">Продукт · Госзакупки</div><div class="no">CASE 01</div></div>
+            <div class="status"><span class="led"></span> В проде</div>
+          </div>
+          <div class="body">
+            <h3>Система поиска выгодных тендеров по 44-ФЗ и 223-ФЗ</h3>
+            <p>Опрашивает ЕИС по профилям поиска, вытягивает срок подачи и оценивает каждую закупку по баллу выгодности. Считает <b>маржу в рублях и процентах</b> с учётом себестоимости и ожидаемого снижения на торгах — параметры крутятся прямо в дашборде с мгновенным пересчётом. Веб-панель с фильтрами по цене, региону и дедлайну, статусы работы над заявкой, экспорт в Excel.</p>
+            <p>Сверху — Telegram-бот: дайджест топ-закупок, напоминания за N дней до закрытия подачи, команды поиска. Отдельным блоком база подрядчиков с подбором под тендер и поиском кандидатов в интернете, плюс генерация черновика заявки в docx с реквизитами компании.</p>
+            <div class="chips">
+              <span class="chip">Парсинг ЕИС</span><span class="chip d">Скоринг и маржа</span><span class="chip">Telegram Bot</span>
+              <span class="chip d">Дашборд</span><span class="chip">SQLite</span><span class="chip">Docker</span><span class="chip">Excel / docx</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="case">
+          <div class="side">
+            <div><div class="tag">Продукт · SaaS</div><div class="no">CASE 02</div></div>
+            <div class="status"><span class="led"></span> В проде</div>
+          </div>
+          <div class="body">
+            <h3>Панель управления для фитнес- и бьюти-студий</h3>
+            <p>Система на базе YClients: боты записи в Telegram и VK, кабинеты владельца и тренера с аналитикой по абонементам, посещениям и выручке, автоматические рассылки акций. Собрана как продукт и продаётся другим студиям по подписке.</p>
+            <div class="chips">
+              <span class="chip">YClients API</span><span class="chip">Telegram Bot</span><span class="chip">VK API</span>
+              <span class="chip d">Дашборды</span><span class="chip d">Аналитика</span><span class="chip">Docker</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="case">
+          <div class="side">
+            <div><div class="tag">AI · Контент</div><div class="no">CASE 03</div></div>
+            <div class="status"><span class="led"></span> Автономно 24/7</div>
+          </div>
+          <div class="body">
+            <h3>Автопостер контента на нейросетях</h3>
+            <p>Автономный сервис: генерирует посты нейросетью, подбирает изображения и сам публикует по расписанию — с учётом тем и стоп-листов. Резервирование LLM-провайдеров, чтобы контент не вставал при сбое одного из них.</p>
+            <div class="chips">
+              <span class="chip">Python</span><span class="chip d">LLM / нейросети</span><span class="chip">Планировщик</span>
+              <span class="chip">VK API</span><span class="chip">Docker Compose</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="case">
+          <div class="side">
+            <div><div class="tag">Бот · Заявки</div><div class="no">CASE 04</div></div>
+            <div class="status"><span class="led"></span> Работает</div>
+          </div>
+          <div class="body">
+            <h3>Чат-бот записи и приёма заявок</h3>
+            <p>Бот отвечает на вопросы клиента, помогает записаться и передаёт заявку менеджеру. Диалог на нейросети с ограничением нагрузки и мягким переключением на живого человека, когда нужно.</p>
+            <div class="chips">
+              <span class="chip d">AI-диалог</span><span class="chip">Telegram / VK</span><span class="chip">CRM-заявки</span>
+              <span class="chip">Резерв провайдеров</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="agencies">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Агентствам и интеграторам</p>
+        <h2>Закрываю то, что вы не берёте — под вашим брендом</h2>
+        <p>Если к вам приходит клиент с ботом, нейросетью или автоматизацией, а отдавать некому — отдайте мне. Работаю как ваш подрядчик, с вашим клиентом не контактирую, NDA подписываю.</p>
+      </div>
+      <div class="grid services">
+        <div class="card"><div class="ic">🏷</div><h3>Белый лейбл</h3><p>Сдаю результат вам, а не заказчику. Ваш бренд, ваши сроки, ваша коммуникация — я в переписке с клиентом не появляюсь.</p></div>
+        <div class="card"><div class="ic">📐</div><h3>Смета за час</h3><p>Пришлите задачу клиента — назову срок и цену в тот же день, чтобы вы могли ответить ему быстро и не потерять сделку.</p></div>
+        <div class="card"><div class="ic">🔌</div><h3>Что беру</h3><p>Чат-боты и AI-ассистенты, интеграции с CRM и внешними API, парсинг и обработка данных, внутренние панели с аналитикой.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Инструменты</p>
+        <h2>Стек, на котором собираю</h2>
+      </div>
+      <div class="stack">
+        <span class="chip">Claude Code</span><span class="chip">Python</span><span class="chip">FastAPI</span>
+        <span class="chip">Telegram Bot API</span><span class="chip">VK API</span><span class="chip">YClients API</span>
+        <span class="chip d">LLM / нейросети</span><span class="chip d">Промпт-инжиниринг</span>
+        <span class="chip">SQLite / БД</span><span class="chip">Docker</span><span class="chip">Caddy</span>
+        <span class="chip">Парсинг</span><span class="chip">Интеграции / API</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Пакеты</p>
+        <h2>Понятные цены — фиксируем результат до старта</h2>
+        <p>Ориентиры по типовым задачам. Точную цену называю после короткого разбора — она зависит от объёма, а не «на глаз».</p>
+      </div>
+      <div class="grid price-grid">
+        <div class="pcard">
+          <div class="name">Бот / автоматизация</div>
+          <div class="amt">20–120<span> тыс ₽</span></div>
+          <div class="term">3–10 дней</div>
+          <ul><li>Чат-бот или парсер под ключ</li><li>Интеграция с CRM / API</li><li>Инструкция и поддержка при запуске</li></ul>
+        </div>
+        <div class="pcard feat">
+          <div class="name">AI-ассистент / панель</div>
+          <div class="amt">80–300<span> тыс ₽</span></div>
+          <div class="term">1–3 недели</div>
+          <ul><li>Агент на нейросети под ваши данные</li><li>Дашборд с аналитикой</li><li>Первую версию показываю за 2–5 дней</li></ul>
+        </div>
+        <div class="pcard">
+          <div class="name">Ведение на аутсорсе</div>
+          <div class="amt">30–80<span> тыс ₽/мес</span></div>
+          <div class="term">Ежемесячно</div>
+          <ul><li>Доработки и новые функции</li><li>Мониторинг и дежурство</li><li>Приоритетные задачи вне очереди</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Как работаем</p>
+        <h2>Четыре шага от задачи до работающей системы</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="rule"></div><h3>Разбор</h3><p>Созвон на 10–15 минут: что за задача, какой результат нужен, где узкое место.</p></div>
+        <div class="step"><div class="rule"></div><h3>Смета</h3><p>Фиксирую объём, срок и цену. Никаких «плюс-минус» — понятно, за что платите.</p></div>
+        <div class="step"><div class="rule"></div><h3>Сборка</h3><p>Собираю с Claude Code, первую версию показываю за 2–5 дней. Правим по ходу.</p></div>
+        <div class="step"><div class="rule"></div><h3>Запуск</h3><p>Внедряю, передаю инструкцию, остаюсь на связи. Дальше — по желанию на ведение.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact">
+        <p class="eyebrow" style="justify-content:center">Связаться</p>
+        <h2>Есть задача на автоматизацию или бота?</h2>
+        <p>Опишите в двух словах, что нужно — отвечу, реально ли это, за сколько и почём. Разбор бесплатный.</p>
+        <!-- ======================================================================
+             КОНТАКТЫ — единственное место в файле, где они есть.
+             Меняются только здесь, больше нигде не дублируются.
+             ====================================================================== -->
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://t.me/kartavenkoilya">Telegram · @kartavenkoilya</a>
+          <a class="btn btn-ghost" href="tel:+79203330097">+7 920 333-00-97</a>
+          <a class="btn btn-ghost" href="mailto:ilya.kartavenko@gmail.com">ilya.kartavenko@gmail.com</a>
+        </div>
+        <div class="note">Отвечаю в течение часа в рабочее время. ИП — работаю по договору, с закрывающими документами.</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span>© 2026 Илья Картавенко — внедрение ИИ и автоматизация</span>
+  <span class="mono">built with Claude Code</span>
+</footer>
