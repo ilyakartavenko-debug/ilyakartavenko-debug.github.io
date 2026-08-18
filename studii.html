@@ -6,50 +6,57 @@
 <title>Сообщество студии, которое ведёт себя само</title>
 <meta name="description" content="Система для фитнес- и бьюти-студий: сама пишет посты, публикует их ВКонтакте, ведёт рекламу, раздаёт задачи сотрудникам и показывает, сколько записей она принесла.">
 <style>
-  /* Светлая палитра — база. Тёмная переопределяет только токены, ниже. */
+  /* Палитра снята с самой панели (#1b150f фон, #241c15 карточки, золото
+     #c8a068…#d8b070) — чтобы скриншоты продукта не спорили со страницей,
+     а читались её частью. Светлая тема — база, тёмная ниже. */
   :root{
-    --paper:#faf8f7; --band:#f4eff2; --surface:#fff; --surface-2:#f7f3f5;
-    --line:#e4dbe0; --line-soft:#efe8ec;
-    --ink:#1e1821; --ink-2:#564a59; --ink-3:#877a8a;
-    --plum:#6b3f6e; --plum-ink:#4f2d52; --plum-wash:#f3ebf4;
-    --on-plum:#fff;
-    --sage:#3f6f60; --sage-wash:#e7efeb;
-    --clay:#a04e3a;
-    --lift:0 1px 2px rgba(31,18,33,.04), 0 8px 24px -16px rgba(31,18,33,.18);
-    --lift-2:0 2px 6px rgba(31,18,33,.06), 0 24px 48px -28px rgba(31,18,33,.3);
+    --paper:#faf6f0; --band:#f3ece2; --surface:#fff; --surface-2:#faf5ee;
+    --line:#e6dccd; --line-soft:#f0e8dc;
+    --ink:#241c14; --ink-2:#574c3f; --ink-3:#8a7a68;
+    --accent:#a3752f; --accent-ink:#7d5820; --accent-wash:#f7eeda;
+    --on-accent:#fff;
+    --glow:rgba(163,117,47,.10);
+    --sage:#3f6f60; --sage-wash:#e9f0ea;
+    --lift:0 1px 2px rgba(44,32,18,.05), 0 8px 24px -16px rgba(44,32,18,.22);
+    --lift-2:0 2px 6px rgba(44,32,18,.07), 0 24px 48px -26px rgba(44,32,18,.34);
     --f-display:"Century Gothic","Futura","Avenir Next","Trebuchet MS",sans-serif;
     --f-body:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
   }
   @media (prefers-color-scheme:dark){
     :root:not([data-theme="light"]){
-      --paper:#141019; --band:#1b1522; --surface:#221b2a; --surface-2:#2a2233;
-      --line:#3b3047; --line-soft:#2e2639;
-      --ink:#f2ecf3; --ink-2:#c2b6c8; --ink-3:#8d8195;
-      --plum:#c79ccc; --plum-ink:#e0c5e4; --plum-wash:#2c1f31;
-      --on-plum:#171021;
-      --sage:#7cc2ae; --sage-wash:#182a25;
-      --clay:#e09477;
-      --lift:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
-      --lift-2:0 2px 8px rgba(0,0,0,.5), 0 28px 56px -30px rgba(0,0,0,.85);
+      --paper:#16110c; --band:#1e1811; --surface:#241c15; --surface-2:#2b2219;
+      --line:#3a2e22; --line-soft:#2a2118;
+      --ink:#f6eee2; --ink-2:#cbbba6; --ink-3:#96856f;
+      --accent:#d4a96b; --accent-ink:#e6c692; --accent-wash:#2e2419;
+      --on-accent:#1a130c;
+      --glow:rgba(212,169,107,.16);
+      --sage:#86b98f; --sage-wash:#1c2a1f;
+      --lift:0 1px 2px rgba(0,0,0,.45), 0 8px 24px -16px rgba(0,0,0,.75);
+      --lift-2:0 2px 8px rgba(0,0,0,.55), 0 28px 56px -28px rgba(0,0,0,.9);
     }
   }
   :root[data-theme="dark"]{
-    --paper:#141019; --band:#1b1522; --surface:#221b2a; --surface-2:#2a2233;
-    --line:#3b3047; --line-soft:#2e2639;
-    --ink:#f2ecf3; --ink-2:#c2b6c8; --ink-3:#8d8195;
-    --plum:#c79ccc; --plum-ink:#e0c5e4; --plum-wash:#2c1f31;
-    --on-plum:#171021;
-    --sage:#7cc2ae; --sage-wash:#182a25;
-    --clay:#e09477;
-    --lift:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
-    --lift-2:0 2px 8px rgba(0,0,0,.5), 0 28px 56px -30px rgba(0,0,0,.85);
+    --paper:#16110c; --band:#1e1811; --surface:#241c15; --surface-2:#2b2219;
+    --line:#3a2e22; --line-soft:#2a2118;
+    --ink:#f6eee2; --ink-2:#cbbba6; --ink-3:#96856f;
+    --accent:#d4a96b; --accent-ink:#e6c692; --accent-wash:#2e2419;
+    --on-accent:#1a130c;
+    --glow:rgba(212,169,107,.16);
+    --sage:#86b98f; --sage-wash:#1c2a1f;
+    --lift:0 1px 2px rgba(0,0,0,.45), 0 8px 24px -16px rgba(0,0,0,.75);
+    --lift-2:0 2px 8px rgba(0,0,0,.55), 0 28px 56px -28px rgba(0,0,0,.9);
   }
 
   *{box-sizing:border-box;min-width:0}
   body{margin:0;background:var(--paper);color:var(--ink);
        font-family:var(--f-body);font-size:17px;line-height:1.6;
-       -webkit-font-smoothing:antialiased}
-  .wrap{max-width:76rem;margin:0 auto;padding:0 1.5rem}
+       -webkit-font-smoothing:antialiased;position:relative}
+  /* мягкое свечение за первым экраном — фон перестаёт быть плоской заливкой */
+  body::before{content:"";position:absolute;inset:0 0 auto 0;height:120vh;
+    background:radial-gradient(80rem 45rem at 78% 8%, var(--glow), transparent 62%),
+               radial-gradient(50rem 34rem at 6% 2%, var(--glow), transparent 60%);
+    pointer-events:none;z-index:0}
+  .wrap{max-width:76rem;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
   h1,h2,h3,.eyebrow,.tarif-name,.amt,.n-val,.btn,.kicker{font-family:var(--f-display)}
   h1{font-size:clamp(2.1rem,4.6vw,3.4rem);line-height:1.05;letter-spacing:-.025em;
      margin:0;text-wrap:balance}
@@ -59,26 +66,24 @@
   p{margin:0}
   ul{margin:0;padding-left:1.1rem}
   li{margin-bottom:.35rem}
-  li::marker{color:var(--plum)}
-  a{color:var(--plum-ink)}
+  li::marker{color:var(--accent)}
+  a{color:var(--accent-ink)}
   strong{font-weight:600}
   img{max-width:100%;height:auto;display:block}
 
   .eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
-           color:var(--plum);margin:0}
+           color:var(--accent);margin:0}
   .lede{font-size:clamp(1.02rem,1.5vw,1.18rem);color:var(--ink-2);max-width:42ch}
   .small{font-size:.92rem;color:var(--ink-2)}
   .note{font-size:.85rem;color:var(--ink-3);max-width:46ch}
   .lead-in{color:var(--ink-2);max-width:62ch}
 
-  /* ── ритм секций: чередование фона даёт глазу опору ─────────────── */
-  section{padding:4rem 0}
+  section{padding:4rem 0;position:relative;z-index:1}
   section.band{background:var(--band)}
   .head{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.8rem;max-width:62ch}
   .kicker{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
           color:var(--ink-3)}
 
-  /* ── первый экран: две колонки, доказательство сразу ────────────── */
   .hero{display:grid;gap:2.5rem;align-items:center;padding:3.5rem 0 3rem;
         grid-template-columns:minmax(0,1fr)}
   @media(min-width:900px){
@@ -91,40 +96,43 @@
   .shot-cap{margin-top:.6rem;font-size:.84rem;color:var(--ink-3)}
 
   .btn{display:inline-block;text-decoration:none;font-size:.95rem;
-       padding:.78rem 1.5rem;border-radius:999px;border:1px solid var(--plum);
-       background:var(--plum);color:var(--on-plum);transition:transform .12s ease}
-  .btn:hover{transform:translateY(-1px)}
-  .btn.ghost{background:transparent;color:var(--plum-ink)}
-  .btn:focus-visible{outline:2px solid var(--clay);outline-offset:3px}
+       padding:.78rem 1.5rem;border-radius:999px;border:1px solid var(--accent);
+       background:var(--accent);color:var(--on-accent);
+       transition:transform .14s ease, box-shadow .14s ease}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px -12px var(--accent)}
+  .btn.ghost{background:transparent;color:var(--accent-ink)}
+  .btn.ghost:hover{box-shadow:none;border-color:var(--accent-ink)}
+  .btn:focus-visible{outline:2px solid var(--accent-ink);outline-offset:3px}
   .cta-row{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center}
 
-  /* ── лента цифр ─────────────────────────────────────────────────── */
   .nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));
         border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .num{padding:1.5rem 1.4rem;border-right:1px solid var(--line-soft);
        display:flex;flex-direction:column;gap:.3rem}
   .num:last-child{border-right:0}
-  .n-val{font-size:clamp(1.7rem,3.2vw,2.3rem);line-height:1;color:var(--plum-ink)}
+  .n-val{font-size:clamp(1.7rem,3.2vw,2.3rem);line-height:1;
+         background:linear-gradient(180deg,var(--accent-ink),var(--accent));
+         -webkit-background-clip:text;background-clip:text;color:transparent}
   .n-lab{font-size:.82rem;color:var(--ink-3);line-height:1.35}
 
-  /* ── карточки ───────────────────────────────────────────────────── */
   .grid{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))}
   .grid.two{grid-template-columns:repeat(auto-fit,minmax(22rem,1fr))}
   .card{border:1px solid var(--line);border-radius:16px;background:var(--surface);
         padding:1.4rem;display:flex;flex-direction:column;gap:.55rem;
-        box-shadow:var(--lift)}
+        box-shadow:var(--lift);
+        transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease}
+  .card:hover{transform:translateY(-3px);box-shadow:var(--lift-2);
+              border-color:var(--accent)}
   .card h3{display:flex;align-items:center;gap:.6rem}
-  .ic{flex:none;width:1.65rem;height:1.65rem;color:var(--plum);
+  .ic{flex:none;width:1.65rem;height:1.65rem;color:var(--accent);
       display:grid;place-items:center}
   .ic svg{width:100%;height:100%;stroke:currentColor;fill:none;
           stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 
-  /* ── чередующийся блок «текст ↔ визуал» ─────────────────────────── */
   .split{display:grid;gap:2rem;align-items:center;grid-template-columns:minmax(0,1fr)}
   @media(min-width:900px){.split{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:3rem}}
   .split .col-txt{display:flex;flex-direction:column;gap:.9rem}
 
-  /* ── сравнение ──────────────────────────────────────────────────── */
   .compare{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr))}
   .col{border:1px solid var(--line);border-radius:16px;padding:1.4rem;
        background:var(--surface);box-shadow:var(--lift)}
@@ -132,13 +140,15 @@
   .col h3{margin-bottom:.7rem}
   .col.now h3{color:var(--sage)}
 
-  /* ── тарифы ─────────────────────────────────────────────────────── */
   .tarifs{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr))}
   .tarif{border:1px solid var(--line);border-radius:18px;background:var(--surface);
          padding:1.6rem 1.45rem;display:flex;flex-direction:column;gap:.6rem;
-         box-shadow:var(--lift)}
-  .tarif.feat{border-color:var(--plum);box-shadow:var(--lift-2);
-              background:var(--surface-2)}
+         box-shadow:var(--lift);transition:transform .16s ease, box-shadow .16s ease}
+  .tarif:hover{transform:translateY(-3px);box-shadow:var(--lift-2)}
+  /* выделенный тариф — золотая рамка-градиент, а не просто цветной бордер */
+  .tarif.feat{border-color:transparent;box-shadow:var(--lift-2);
+      background:linear-gradient(var(--surface-2),var(--surface-2)) padding-box,
+                 linear-gradient(150deg,var(--accent),var(--accent-ink)) border-box}
   .tarif-name{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;
               color:var(--ink-3)}
   .amt{font-size:2.1rem;line-height:1;font-variant-numeric:tabular-nums}
@@ -146,15 +156,16 @@
   .tarif ul{font-size:.91rem;margin-top:.2rem}
   .badge{display:inline-block;font-size:.64rem;letter-spacing:.1em;
          text-transform:uppercase;padding:.18rem .55rem;border-radius:999px;
-         background:var(--plum-wash);color:var(--plum-ink);border:1px solid var(--plum);
-         margin-left:.35rem;vertical-align:middle}
+         background:var(--accent-wash);color:var(--accent-ink);
+         border:1px solid var(--accent);margin-left:.35rem;vertical-align:middle}
 
   details{border:1px solid var(--line);border-radius:14px;background:var(--surface);
-          padding:1rem 1.25rem;box-shadow:var(--lift)}
+          padding:1rem 1.25rem;box-shadow:var(--lift);transition:border-color .16s ease}
+  details:hover{border-color:var(--accent)}
   details + details{margin-top:.7rem}
   summary{cursor:pointer;font-weight:600;color:var(--ink);list-style:none}
   summary::-webkit-details-marker{display:none}
-  summary::after{content:"+";float:right;color:var(--plum);font-weight:400;
+  summary::after{content:"+";float:right;color:var(--accent);font-weight:400;
                  font-size:1.2rem;line-height:1}
   details[open] summary::after{content:"–"}
   details[open] summary{margin-bottom:.7rem;padding-bottom:.6rem;
@@ -162,40 +173,51 @@
   details p{font-size:.94rem;color:var(--ink-2)}
   details p + p{margin-top:.6rem}
 
-  .final{border:1px solid var(--plum);border-radius:20px;background:var(--plum-wash);
-         padding:2.5rem 1.75rem;text-align:center;display:flex;flex-direction:column;
-         gap:1.1rem;align-items:center}
-  .final p{max-width:48ch}
-  .final .cta-row{justify-content:center}
-
-  /* ── примеры постов: узнаваемая форма соцсети ───────────────────── */
   .posts{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(19rem,1fr))}
   .post{border:1px solid var(--line);border-radius:16px;background:var(--surface);
-        box-shadow:var(--lift);overflow:hidden;display:flex;flex-direction:column}
+        box-shadow:var(--lift);overflow:hidden;display:flex;flex-direction:column;
+        transition:transform .16s ease, box-shadow .16s ease}
+  .post:hover{transform:translateY(-3px);box-shadow:var(--lift-2)}
   .post-top{display:flex;align-items:center;gap:.65rem;padding:.9rem 1.1rem;
             border-bottom:1px solid var(--line-soft)}
   .ava{width:2.1rem;height:2.1rem;border-radius:50%;flex:none;display:grid;
-       place-items:center;background:var(--plum);color:var(--on-plum);
-       font-family:var(--f-display);font-size:.9rem}
+       place-items:center;font-family:var(--f-display);font-size:.9rem;
+       background:linear-gradient(140deg,var(--accent),var(--accent-ink));
+       color:var(--on-accent)}
   .post-who{display:flex;flex-direction:column;line-height:1.25;min-width:0}
   .post-name{font-weight:600;font-size:.9rem}
   .post-date{font-size:.76rem;color:var(--ink-3)}
   .pill{margin-left:auto;flex:none;font-size:.66rem;letter-spacing:.06em;
         text-transform:uppercase;padding:.2rem .55rem;border-radius:999px;
-        background:var(--plum-wash);color:var(--plum-ink);border:1px solid var(--line)}
+        background:var(--accent-wash);color:var(--accent-ink);border:1px solid var(--line)}
   .post-body{padding:1rem 1.1rem 1.15rem;display:flex;flex-direction:column;gap:.55rem}
   .post-h{font-weight:600;font-size:.98rem;line-height:1.3}
   .post-t{font-size:.9rem;color:var(--ink-2);line-height:1.55;white-space:pre-line}
-  .post-tags{font-size:.82rem;color:var(--plum)}
+  .post-tags{font-size:.82rem;color:var(--accent)}
 
-  /* ── обрамление скриншотов ──────────────────────────────────────── */
   figure.frame{margin:1.6rem 0 0}
   figure.frame .shot{border-radius:14px}
   figure.frame figcaption{margin-top:.6rem;font-size:.84rem;color:var(--ink-3);
                           max-width:70ch}
 
+  .final{border:1px solid var(--accent);border-radius:20px;
+         background:linear-gradient(160deg,var(--accent-wash),var(--surface));
+         padding:2.5rem 1.75rem;text-align:center;display:flex;flex-direction:column;
+         gap:1.1rem;align-items:center;box-shadow:var(--lift-2)}
+  .final p{max-width:48ch}
+  .final .cta-row{justify-content:center}
+
   footer{border-top:1px solid var(--line);padding:1.5rem 0 3rem;font-size:.85rem;
          color:var(--ink-3);display:flex;flex-wrap:wrap;gap:.6rem 1.5rem}
+
+  /* мягкое появление блоков при прокрутке */
+  .reveal{opacity:0;transform:translateY(14px);
+          transition:opacity .5s ease, transform .5s ease}
+  .reveal.seen{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .btn,.card,.tarif,.post{transition:none}
+  }
 
   @media(max-width:640px){
     body{font-size:16px}
@@ -615,5 +637,20 @@
   </footer>
 </div>
 
+<script>
+// Мягкое появление блоков при прокрутке. Если в системе включено «уменьшить
+// анимации» — не трогаем ничего: класс не навешивается, всё видно сразу.
+(function () {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var els = document.querySelectorAll('.card, .post, .tarif, .col, figure.frame, .nums');
+  els.forEach(function (e) { e.classList.add('reveal'); });
+  var io = new IntersectionObserver(function (rows) {
+    rows.forEach(function (r) {
+      if (r.isIntersecting) { r.target.classList.add('seen'); io.unobserve(r.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+  els.forEach(function (e) { io.observe(e); });
+})();
+</script>
 </body>
 </html>
