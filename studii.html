@@ -168,6 +168,32 @@
   .final p{max-width:48ch}
   .final .cta-row{justify-content:center}
 
+  /* ── примеры постов: узнаваемая форма соцсети ───────────────────── */
+  .posts{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(19rem,1fr))}
+  .post{border:1px solid var(--line);border-radius:16px;background:var(--surface);
+        box-shadow:var(--lift);overflow:hidden;display:flex;flex-direction:column}
+  .post-top{display:flex;align-items:center;gap:.65rem;padding:.9rem 1.1rem;
+            border-bottom:1px solid var(--line-soft)}
+  .ava{width:2.1rem;height:2.1rem;border-radius:50%;flex:none;display:grid;
+       place-items:center;background:var(--plum);color:var(--on-plum);
+       font-family:var(--f-display);font-size:.9rem}
+  .post-who{display:flex;flex-direction:column;line-height:1.25;min-width:0}
+  .post-name{font-weight:600;font-size:.9rem}
+  .post-date{font-size:.76rem;color:var(--ink-3)}
+  .pill{margin-left:auto;flex:none;font-size:.66rem;letter-spacing:.06em;
+        text-transform:uppercase;padding:.2rem .55rem;border-radius:999px;
+        background:var(--plum-wash);color:var(--plum-ink);border:1px solid var(--line)}
+  .post-body{padding:1rem 1.1rem 1.15rem;display:flex;flex-direction:column;gap:.55rem}
+  .post-h{font-weight:600;font-size:.98rem;line-height:1.3}
+  .post-t{font-size:.9rem;color:var(--ink-2);line-height:1.55;white-space:pre-line}
+  .post-tags{font-size:.82rem;color:var(--plum)}
+
+  /* ── обрамление скриншотов ──────────────────────────────────────── */
+  figure.frame{margin:1.6rem 0 0}
+  figure.frame .shot{border-radius:14px}
+  figure.frame figcaption{margin-top:.6rem;font-size:.84rem;color:var(--ink-3);
+                          max-width:70ch}
+
   footer{border-top:1px solid var(--line);padding:1.5rem 0 3rem;font-size:.85rem;
          color:var(--ink-3);display:flex;flex-wrap:wrap;gap:.6rem 1.5rem}
 
@@ -259,8 +285,65 @@
   </div>
 </section>
 
-<!-- раздаёт работу -->
+
+<!-- примеры постов -->
 <section class="band">
+  <div class="wrap">
+    <div class="head">
+      <p class="kicker">Что получается на выходе</p>
+      <h2>Как выглядят посты</h2>
+      <p class="lead-in">Это не примеры «для сайта». Три настоящих поста, которые система написала и опубликовала в моём сообществе — с разными рубриками, потому что лента не должна быть однообразной.</p>
+    </div>
+    <div class="posts">
+
+      <article class="post">
+        <div class="post-top">
+          <div class="ava">Z</div>
+          <div class="post-who"><span class="post-name">ZONA Шпагата</span><span class="post-date">20 июля</span></div>
+          <span class="pill">польза</span>
+        </div>
+        <div class="post-body">
+          <p class="post-h">Ноги как свинец? Исправляем ошибку во время тренировки</p>
+          <p class="post-t">Выходила из зала с чувством тяжести в ногах? Это может быть следствием неправильной техники. При упражнениях на пресс и ягодицы важно не зажимать ноги. Вытягивай их, ощущая растяжение, а не напряжение. Если ноги начинают «свисать», значит, теряешь контроль. Правильное дыхание и плавные движения — ключ к успеху.</p>
+          <p class="post-tags">#растяжкасмоленск #шпагатсмоленск #фитнессмоленск</p>
+        </div>
+      </article>
+
+      <article class="post">
+        <div class="post-top">
+          <div class="ava">Z</div>
+          <div class="post-who"><span class="post-name">ZONA Шпагата</span><span class="post-date">18 июля</span></div>
+          <span class="pill">лёгкий</span>
+        </div>
+        <div class="post-body">
+          <p class="post-h">Когда шпагат превращается в смех</p>
+          <p class="post-t">Растяжка — это не только гибкость, но и веселье! Одна из девчонок упала на бок, и мы все рассмеялись. Она с улыбкой сказала: «Открыла новый стиль — падение на шпагате». Важно уметь смеяться над собой и поддерживать друг друга. Каждое занятие — это шаг к гибкости и радости.</p>
+        </div>
+      </article>
+
+      <article class="post">
+        <div class="post-top">
+          <div class="ava">Z</div>
+          <div class="post-who"><span class="post-name">ZONA Шпагата</span><span class="post-date">17 июля</span></div>
+          <span class="pill">продающий</span>
+        </div>
+        <div class="post-body">
+          <p class="post-h">Первый шаг к гибкости: пробное занятие</p>
+          <p class="post-t">Каждый новый опыт — это твой личный путь. На пробном занятии в «ZONA Шпагата» ты сможешь задать вопросы и попробовать упражнения без спешки и оценок.
+
+Утренние часы — отличное время для заботы о себе. Мы находимся на пр. Гагарина, 22. Ждём тебя!
+
+Хочешь попробовать? Напиши «хочу» в сообщения 🤍</p>
+        </div>
+      </article>
+
+    </div>
+    <p class="note" style="margin-top:1.1rem;max-width:70ch">Адрес, район и формулировка призыва берутся из справки студии. Система не придумывает ни адрес, ни акцию, ни отзыв — если этого нет в справке, этого не будет и в посте.</p>
+  </div>
+</section>
+
+<!-- раздаёт работу -->
+<section>
   <div class="wrap">
     <div class="head">
       <p class="kicker">Главное отличие</p>
@@ -278,7 +361,13 @@
       <div class="card"><h3><span class="ic"><svg><use href="#i-star"/></svg></span>Задания тренерам на месяц</h3>
         <p class="small">Меню задач публикуется само, если владелец не сделал этого руками. Задачи сбалансированы по направлениям — контент, атмосфера в зале, приток, мастерство — и приоритет отдаётся тому, что у студии проседает. Сдачи владелец принимает или отклоняет, за них идут баллы и бонус.</p></div>
     </div>
-    <div class="card" style="margin-top:1.1rem">
+    <figure class="frame">
+      <div class="shot"><img src="img/panel-tasks.png" loading="lazy"
+        alt="Доска задач в панели: задачи владельцу и задачи сотрудникам с фильтрами по типу"></div>
+      <figcaption>Доска задач: сверху то, что решает владелец, снизу — дела сотрудникам с фильтрами «съёмка», «акция», «контент». У задачи на фото стоит срок и предупреждение: не загрузите вовремя — пост придержится в ленте и не выйдет.</figcaption>
+    </figure>
+
+    <div class="card" style="margin-top:1.6rem">
       <h3>Одна задача за раз — иначе доска превращается в свалку</h3>
       <p class="small">Медиа-задача на доске всегда одна: ближайшая. Будущие съёмки не висят весь месяц напоминанием о том, что вы не успеваете. Менеджер открывает панель и видит, что делать <em>сейчас</em>, а не список из тридцати дел, к которому страшно подойти.</p>
     </div>
@@ -286,7 +375,7 @@
 </section>
 
 <!-- знакомая история -->
-<section>
+<section class="band">
   <div class="wrap">
     <div class="head">
       <p class="kicker">С чего всё начинается</p>
@@ -318,7 +407,7 @@
 </section>
 
 <!-- запреты -->
-<section class="band">
+<section>
   <div class="wrap">
     <div class="head">
       <p class="kicker">Главный страх владельца</p>
@@ -339,7 +428,7 @@
 </section>
 
 <!-- цены -->
-<section id="tarify">
+<section id="tarify" class="band">
   <div class="wrap">
     <div class="head">
       <p class="kicker">Сколько это стоит</p>
@@ -411,7 +500,7 @@
 </section>
 
 <!-- приложение -->
-<section class="band">
+<section>
   <div class="wrap">
     <div class="split">
       <div class="col-txt">
@@ -427,11 +516,23 @@
         <p class="note">Честная оговорка: у новой студии история пустая, поэтому первые недели отчёты копят данные. Это свойство любой аналитики, а не этого режима.</p>
       </div>
     </div>
+
+    <figure class="frame">
+      <div class="shot"><img src="img/panel-load.png" loading="lazy"
+        alt="Загрузка зала: процент занятых часов, пустые часы и заполняемость по неделям"></div>
+      <figcaption>Загрузка зала. Видно не «охваты», а сколько часов сетки реально состоялось, какие часы стабильно пустуют и как заполняемость менялась по неделям. Отмена считается пустым часом — цифра не приукрашена.</figcaption>
+    </figure>
+
+    <figure class="frame">
+      <div class="shot"><img src="img/panel-clients.png" loading="lazy"
+        alt="Страница клиентов: остаток абонемента, срок действия, фильтр «на продление»"></div>
+      <figcaption>Клиентская база: у кого сколько занятий осталось, когда истекает абонемент и кому пора звонить. Фильтр «на продление» собирает тех, у кого осталось два занятия или неделя срока.</figcaption>
+    </figure>
   </div>
 </section>
 
 <!-- личная история -->
-<section>
+<section class="band">
   <div class="wrap">
     <div class="head">
       <p class="kicker">Кто за этим стоит</p>
@@ -450,7 +551,7 @@
 </section>
 
 <!-- вопросы -->
-<section class="band">
+<section>
   <div class="wrap">
     <div class="head">
       <p class="kicker">Разберём заранее</p>
@@ -491,7 +592,7 @@
 </section>
 
 <!-- финал -->
-<section id="demo">
+<section id="demo" class="band">
   <div class="wrap">
     <div class="final">
       <p class="eyebrow">Следующий шаг</p>
